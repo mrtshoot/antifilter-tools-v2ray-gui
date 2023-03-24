@@ -77,7 +77,7 @@
       update: yes
   - name: Spinning up
     shell:
-      cmd: bash run.sh
+      cmd: bash run.sh 0.3.2
       chdir: /var/opt/antifilter-tools-v2ray-gui
     vars:
       config_confirm: "y"
