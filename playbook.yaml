@@ -1,0 +1,87 @@
+---
+#Servers_Requirements
+- name: Install Requirements Package and Modules
+  hosts: server
+  remote_user: root
+  vars:
+    packages:
+      - nginx
+      - htop
+      - git
+      - curl
+      - apt-transport-https
+      - ca-certificates
+      - software-properties-common
+      - wget
+      - gnupg
+      - lsb-release
+      - jq
+  tasks:
+    - name: Install Required Packages
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+        autoremove: yes
+        autoclean: yes
+      with_items: "{{ packages }}"
+      tags:
+      - package
+
+#Services
+- name: Start Services
+  hosts: server
+  remote_user: root
+  vars:
+    services:
+      - nginx
+  tasks:
+    - name: Enable and Start Services
+      systemd:
+        name: "{{ item }}"
+        state: started
+        enabled: True
+        daemon_reload: True
+      with_items: "{{ services }}"
+      tags:
+      - service
+
+#Tunning
+- name: Tunning
+  hosts: server
+  remote_user: root
+  tasks:
+    - name: Modify sysctl entries
+      sysctl:
+        name: '{{ item.key }}'
+        value: '{{ item.value }}'
+        sysctl_set: yes
+        state: present
+        reload: yes
+      with_items:
+        - {key: net.ipv4.ip_forward,  value: 1}
+      tags:
+      - tune
+
+#Deploy V2Ray
+- name: Deploy V2ray
+  hosts: server
+  remote_user: root
+  tasks:
+  - name: Clone project
+    git:
+      repo: https://github.com/mrtshoot/antifilter-tools-v2ray-gui.git
+      dest: /var/opt/antifilter-tools-v2ray-gui
+      accept_hostkey: yes
+      remote: origin
+      clone: yes
+      update: yes
+  - name: Spinning up
+    shell:
+      cmd: bash run.sh
+      chdir: /var/opt/antifilter-tools-v2ray-gui
+    vars:
+      config_confirm: "y"
+      config_account: "{{ config_account }}"
+      config_password: "{{ config_password }}"
+      config_port: "{{ config_port }}"
