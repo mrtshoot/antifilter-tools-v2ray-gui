@@ -67,21 +67,23 @@
   hosts: server
   remote_user: root
   tasks:
-  - name: Clone project
-    git:
-      repo: https://github.com/mrtshoot/antifilter-tools-v2ray-gui.git
-      dest: /var/opt/antifilter-tools-v2ray-gui
-      accept_hostkey: yes
-      remote: origin
-      clone: yes
-      update: yes
-      force: yes
-  - name: Spinning up
-    shell:
-      cmd: bash run.sh
-      chdir: /var/opt/antifilter-tools-v2ray-gui
-    vars:
-      config_confirm: "y"
-      config_account: "{{ config_account }}"
-      config_password: "{{ config_password }}"
-      config_port: "{{ config_port }}"
+    - name: Clone project
+      git:
+        repo: https://github.com/mrtshoot/antifilter-tools-v2ray-gui.git
+        dest: /var/opt/antifilter-tools-v2ray-gui
+        accept_hostkey: yes
+        remote: origin
+        clone: yes
+        update: yes
+        force: yes
+    - name: Spinning up
+      shell:
+        cmd: bash run.sh
+        chdir: /var/opt/antifilter-tools-v2ray-gui
+      vars:
+        config_confirm: "y"
+        config_account: "{{ config_account }}"
+        config_password: "{{ config_password }}"
+        config_port: "{{ config_port }}"
+      tags:
+      - deploy
