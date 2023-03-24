@@ -75,10 +75,10 @@
         remote: origin
         clone: yes
         update: yes
-        force: yes
+        force: yes  
     - name: Spinning up
       shell:
-        cmd: bash run.sh
+        cmd: printf "%s\n%s\n" "{{ config_confirm }}" "{{ config_account }}" "{{ config_password }}" "{{ config_port }}" | bash run.sh
         chdir: /var/opt/antifilter-tools-v2ray-gui
       vars:
         config_confirm: "y"
