@@ -75,7 +75,7 @@
       remote: origin
       clone: yes
       update: yes
-      force: no
+      force: yes
   - name: Spinning up
     shell:
       cmd: bash run.sh 0.3.2
