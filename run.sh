@@ -13,9 +13,9 @@ read -p "Enter your web gui v2ray admin username: " config_account
 read -p "Enter your web gui v2ray admin password: " config_password
 read -p "Enter your web gui v2ray admin panel port: " config_port
 
-# # Install Requirements
-# sudo apt update -y
-# sudo apt install -y ansible sshpass git
+# Install Requirements
+sudo apt update -y
+sudo apt install -y ansible sshpass git
 
 # Create playbook inventory
 cp inventory.example inventory
