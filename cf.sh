@@ -14,7 +14,7 @@ read -p "Please enter Your subdomain: " subdomain
 # IP address
 read -p "Please enter Your IP Address: " ip_address
 
-# Proxied
+## Proxied
 # read -p "Do you want your A Record proxied or not(y/n): " proxied
 # if [[ $proxied == "y" || $proxied == "Y" ]]; then
 #     proxied=true
@@ -23,7 +23,7 @@ read -p "Please enter Your IP Address: " ip_address
 # else
 #     echo -e "Please provide a correct answer Yes(y|Y) or No(n|N)"
 # fi
-proxied=true
+proxied=false
 
 #func
 
