@@ -34,7 +34,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name $domain;
+    server_name $subdomain.$domain;
 
     location / {
         return 301 https://\$server_name\$request_uri;
