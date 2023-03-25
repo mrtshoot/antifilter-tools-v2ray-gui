@@ -106,7 +106,7 @@
         clone: yes
         update: yes
         force: yes  
-    - name: Spinning up
+    - name: Spinning up V2ray
       shell:
         cmd: printf "%s\n%s\n" "{{ config_confirm }}" "{{ config_account }}" "{{ config_password }}" "{{ config_port }}" | bash v2ray.sh
         chdir: /var/opt/antifilter-tools-v2ray-gui
@@ -120,7 +120,7 @@
       - v2ray
 
 # Deploy Nginx
-- name: Deploy V2ray
+- name: Deploy Nginx
   hosts: server
   remote_user: root
   tasks:
@@ -133,9 +133,9 @@
         clone: yes
         update: yes
         force: yes  
-    - name: Spinning up
+    - name: Spinning up Nginx
       shell:
-        cmd: printf "%s\n%s\n" "{{ domain }}" "{{ subdomain }}" "{{ proxy_port }}" "{{ email }}" | bash nginx-ssl.sh
+        cmd: printf "%s\n%s\n" "{{ domain }}" "{{ subdomain }}" "{{ config_port }}" "{{ email }}" | bash nginx-ssl.sh
         chdir: /var/opt/antifilter-tools-v2ray-gui
       vars:
         domain: "{{ domain }}"
