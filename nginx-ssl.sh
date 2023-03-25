@@ -7,8 +7,9 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Input parameters
-read -p "Please enter your domain name: " domain
-read -p "Please enter your v2ray port: " proxy_port
+read -p "Please enter your base domain name(example.com): " domain
+read -p "Please enter your subdomain name(test): " subdomain
+read -p "Please enter your v2ray port: " config_port
 read -p "Please enter your email address: " email
 
 # Check if domain is passed as an argument
@@ -19,10 +20,10 @@ fi
 
 # Create nginx configuration file
 create_nginx_config() {
-    echo "Creating Nginx configuration file for $domain..."
+    echo "Creating Nginx configuration file for '$subdomain'.'$domain'..."
 
     # Request Let's Encrypt certificate
-    certbot --non-interactive --quiet --agree-tos --email "$email" --redirect --nginx -d "$domain"
+    certbot --non-interactive --quiet --agree-tos --email "$email" --redirect --nginx -d "'$subdomain'.'$domain'"
 
     # Create a temporary file for the nginx configuration
     CONF=$(mktemp)
@@ -43,9 +44,9 @@ server {
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name $domain;
-    ssl_certificate /etc/letsencrypt/live/$domain/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$domain/privkey.pem;
+    server_name '$subdomain'.'$domain';
+    ssl_certificate /etc/letsencrypt/live/'$subdomain'.'$domain'/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/'$subdomain'.'$domain'/privkey.pem;
     gzip on;
     gzip_disable "msie6";
     gzip_vary on;
@@ -55,7 +56,7 @@ server {
     gzip_http_version 1.1;
     gzip_types application/javascript application/rss+xml application/vnd.ms-fontobject application/x-font application/x-font-opentype application/x-font-otf application/x-font-truetype application/x-font-ttf application/x-javascript application/xhtml+xml application/xml font/opentype font/otf font/ttf image/svg+xml image/x-icon text/css text/javascript text/plain text/xml;
     
-    if (\$host !~ ^($domain)$ ) {
+    if (\$host !~ ^('$subdomain'.'$domain')$ ) {
         return 444;
     }
 
@@ -63,8 +64,8 @@ server {
         return 444;
     }
 
-    access_log /var/log/nginx/$domain.access.log;
-    error_log /var/log/nginx/$domain.error.log;
+    access_log /var/log/nginx/'$subdomain'.'$domain'.access.log;
+    error_log /var/log/nginx/'$subdomain'.'$domain'.error.log;
 
     location = /favicon.ico {
         log_not_found off;
@@ -72,7 +73,7 @@ server {
     }
 
     location / {
-        proxy_pass http://localhost:$proxy_port;
+        proxy_pass http://localhost:$config_port;
         proxy_http_version 1.1;
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection "upgrade";
@@ -82,10 +83,10 @@ server {
 EOF
 
     # Move the temporary file to the Nginx configuration directory
-    mv "$CONF" /etc/nginx/sites-available/"$domain"
+    mv "$CONF" /etc/nginx/sites-available/"'$subdomain'.'$domain'"
 
     # Enable the site
-    ln -s /etc/nginx/sites-available/"$domain" /etc/nginx/sites-enabled/
+    ln -s /etc/nginx/sites-available/"'$subdomain'.'$domain'" /etc/nginx/sites-enabled/
 
     # Remove unnessery files
     rm -f /etc/nginx/sites-available/default
@@ -100,9 +101,9 @@ EOF
     # Test automatic certificate renewal
     certbot renew --dry-run
 
-    echo "Nginx configuration file for $domain has been created successfully!"
+    echo "Nginx configuration file for '$subdomain'.'$domain' has been created successfully!"
 
 }
 
 # Call the create_nginx_config function
-create_nginx_config "$domain $proxy_port"
+create_nginx_config "'$subdomain'.'$domain' $config_port"

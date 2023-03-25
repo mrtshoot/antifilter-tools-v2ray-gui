@@ -64,7 +64,33 @@
       tags:
       - tune
 
-#Deploy V2Ray
+# Define DNS A Record
+- name: DNS
+  hosts: server
+  remote_user: root
+  tasks:
+    - name: Clone project
+      git:
+        repo: https://github.com/mrtshoot/antifilter-tools-v2ray-gui.git
+        dest: /var/opt/antifilter-tools-v2ray-gui
+        accept_hostkey: yes
+        remote: origin
+        clone: yes
+        update: yes
+        force: yes
+    - name: Define A Record
+      shell:
+        cmd: printf "%s\n%s\n" "{{ api_token }}" "{{ domain }}" "{{ subdomain }}" "{{ ip_address }}" | bash cf.sh
+        chdir: /var/opt/antifilter-tools-v2ray-gui
+      vars:
+        api_token: "{{ api_token }}"
+        domain: "{{ domain }}"
+        subdomain: "{{ subdomain }}"
+        ip_address: "{{ ip_address }}"
+      tags:
+      - deploy    
+
+# Deploy V2Ray
 - name: Deploy V2ray
   hosts: server
   remote_user: root
@@ -89,3 +115,31 @@
         config_port: "{{ config_port }}"
       tags:
       - deploy
+      - v2ray
+
+# Deploy Nginx
+- name: Deploy V2ray
+  hosts: server
+  remote_user: root
+  tasks:
+    - name: Clone project
+      git:
+        repo: https://github.com/mrtshoot/antifilter-tools-v2ray-gui.git
+        dest: /var/opt/antifilter-tools-v2ray-gui
+        accept_hostkey: yes
+        remote: origin
+        clone: yes
+        update: yes
+        force: yes  
+    - name: Spinning up
+      shell:
+        cmd: printf "%s\n%s\n" "{{ domain }}" "{{ subdomain }}" "{{ proxy_port }}" "{{ email }}" | bash nginx-ssl.sh
+        chdir: /var/opt/antifilter-tools-v2ray-gui
+      vars:
+        domain: "{{ domain }}"
+        subdomain: "{{ subdomain }}"
+        config_port: "{{ config_port }}"
+        email: "{{ email }}"
+      tags:
+      - deploy
+      - nginx
