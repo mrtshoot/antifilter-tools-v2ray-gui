@@ -81,13 +81,14 @@
         force: yes
     - name: Define A Record
       shell:
-        cmd: printf "%s\n%s\n" "{{ api_token }}" "{{ domain }}" "{{ subdomain }}" "{{ ip_address }}" | bash cf.sh
+        cmd: printf "%s\n%s\n" "{{ api_token }}" "{{ domain }}" "{{ subdomain }}" "{{ ip_address }}" "{{ proxied }}" | bash cf.sh
         chdir: /var/opt/antifilter-tools-v2ray-gui
       vars:
         api_token: "{{ api_token }}"
         domain: "{{ domain }}"
         subdomain: "{{ subdomain }}"
         ip_address: "{{ ip_address }}"
+        proxied: "{{ proxied }}"
       tags:
       - deploy    
 
