@@ -23,16 +23,19 @@ Answer the interactive questions and wait for the process to finish.
 1. Put your domain name on browser
 2. Enter your v2ray admin username and password
 3. Create account on your server based on the following picture
-![Uploading 1.png…]()
+
+![1](https://user-images.githubusercontent.com/56720170/227715565-0f213c51-b4ee-409f-807d-4eba76efb75e.png)
 
 4. Config your account
-![Uploading 2.png…]()
+
+![2](https://user-images.githubusercontent.com/56720170/227715576-ffee9f08-8333-4c82-a307-74e1322103e2.png)
+
 
 5. Get your QRCODE and Copy config.json to import on v2ray clients
 
-![Uploading 3.png…]()
+![3](https://user-images.githubusercontent.com/56720170/227715577-8605879f-dbbd-4d88-a8f4-6cffe4c9301a.png)
 
-![Uploading 4.png…]()
+![4](https://user-images.githubusercontent.com/56720170/227715582-b80a2421-05af-48a0-ae72-6bbb94647e03.png)
 
 
 ## Donate: 
