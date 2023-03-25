@@ -6,7 +6,7 @@ set -eu
 read -p "Please enter your api_token: " api_token
 
 # Domain name
-read -p "Please enter Your domain: " domain
+read -p "Please enter Your basedomain: " domain
 
 # Subdomain name
 read -p "Please enter Your subdomain: " subdomain
@@ -17,11 +17,12 @@ read -p "Please enter Your IP Address: " ip_address
 # Proxied
 read -p "Do you want your A Record proxied or not(y/n): " proxied
 if [[ $proxied == "y" || $proxied == "Y" ]]; then
-    proxied="True"
+    proxied=true
 elif [[ $proxied == "n" || $proxied == "N" ]]; then
-    proxied="False"
+    proxied=false
 else
     echo -e "Please provide a correct answer Yes(y|Y) or No(n|N)"
+fi
 
 #func
 
@@ -30,7 +31,7 @@ CF_ADD_RCRD() {
     curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$zone_id/dns_records" \
     -H "Authorization: Bearer $api_token" \
     -H "Content-Type: application/json" \
-    --data '{"type":"A","name":"'$subdomain'.'$domain'","content":"'$ip_address'","ttl":1,"proxied":"'$proxied'"}'
+    --data '{"type":"A","name":"'$subdomain'.'$domain'","content":"'$ip_address'","ttl":1,"proxied":'$proxied'}'
 
     # Enable HTTPS redirect
     curl -X PATCH "https://api.cloudflare.com/client/v4/zones/${zone_id}/settings/always_use_https" \
