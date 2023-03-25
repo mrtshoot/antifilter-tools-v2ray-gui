@@ -22,7 +22,7 @@ create_nginx_config() {
     echo "Creating Nginx configuration file for $domain..."
 
     # Request Let's Encrypt certificate
-    certbot --non-interactive --quiet --agree-tos --email "$email" --nginx -d "$domain"
+    certbot --non-interactive --quiet --agree-tos --email "$email" --redirect --nginx -d "$domain"
 
     # Create a temporary file for the nginx configuration
     CONF=$(mktemp)
