@@ -6,6 +6,8 @@
   vars:
     packages:
       - nginx
+      - python3-certbot-nginx
+      - certbot
       - htop
       - git
       - curl
@@ -78,7 +80,7 @@
         force: yes  
     - name: Spinning up
       shell:
-        cmd: printf "%s\n%s\n" "{{ config_confirm }}" "{{ config_account }}" "{{ config_password }}" "{{ config_port }}" | bash run.sh
+        cmd: printf "%s\n%s\n" "{{ config_confirm }}" "{{ config_account }}" "{{ config_password }}" "{{ config_port }}" | bash v2ray.sh
         chdir: /var/opt/antifilter-tools-v2ray-gui
       vars:
         config_confirm: "y"
