@@ -144,3 +144,8 @@
       tags:
       - deploy
       - nginx
+      register: result
+
+    - name: Result Message
+      debug:
+        msg: "Login to your server with https://{{ result.subdomain }}.{{ result.domain }}/"
