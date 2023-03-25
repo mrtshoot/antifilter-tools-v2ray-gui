@@ -15,14 +15,15 @@ read -p "Please enter Your subdomain: " subdomain
 read -p "Please enter Your IP Address: " ip_address
 
 # Proxied
-read -p "Do you want your A Record proxied or not(y/n): " proxied
-if [[ $proxied == "y" || $proxied == "Y" ]]; then
-    proxied=true
-elif [[ $proxied == "n" || $proxied == "N" ]]; then
-    proxied=false
-else
-    echo -e "Please provide a correct answer Yes(y|Y) or No(n|N)"
-fi
+# read -p "Do you want your A Record proxied or not(y/n): " proxied
+# if [[ $proxied == "y" || $proxied == "Y" ]]; then
+#     proxied=true
+# elif [[ $proxied == "n" || $proxied == "N" ]]; then
+#     proxied=false
+# else
+#     echo -e "Please provide a correct answer Yes(y|Y) or No(n|N)"
+# fi
+proxied=true
 
 #func
 
