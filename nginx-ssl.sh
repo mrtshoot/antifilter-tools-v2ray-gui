@@ -9,6 +9,7 @@ fi
 # Input parameters
 read -p "Please enter your domain name: " domain
 read -p "Please enter your v2ray port: " proxy_port
+read -p "Please enter your email address: " email
 
 # Check if domain is passed as an argument
 if [[ -z "$domain" ]]; then
@@ -21,7 +22,7 @@ create_nginx_config() {
     echo "Creating Nginx configuration file for $domain..."
 
     # Request Let's Encrypt certificate
-    certbot --nginx -d "$domain"
+    certbot --non-interactive --quiet --agree-tos --email "$email" --nginx -d "$domain"
 
     # Create a temporary file for the nginx configuration
     CONF=$(mktemp)
@@ -96,6 +97,9 @@ EOF
     certbot renew --dry-run
 
     echo "Nginx configuration file for $domain has been created successfully!"
+
+    rm -f /etc/nginx/sites-available/default
+    rm -f /etc/nginx/sites-enabled/default
 }
 
 # Call the create_nginx_config function
