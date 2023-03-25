@@ -54,11 +54,11 @@ server {
     gzip_http_version 1.1;
     gzip_types application/javascript application/rss+xml application/vnd.ms-fontobject application/x-font application/x-font-opentype application/x-font-otf application/x-font-truetype application/x-font-ttf application/x-javascript application/xhtml+xml application/xml font/opentype font/otf font/ttf image/svg+xml image/x-icon text/css text/javascript text/plain text/xml;
     
-    if (\${host} !~ ^($domain)$ ) {
+    if (\$host !~ ^($domain)$ ) {
         return 444;
     }
 
-    if (\${request_method} !~ ^(GET|HEAD|POST)$ ) {
+    if (\$request_method !~ ^(GET|HEAD|POST)$ ) {
         return 444;
     }
 
@@ -73,9 +73,9 @@ server {
     location / {
         proxy_pass http://localhost:$proxy_port;
         proxy_http_version 1.1;
-        proxy_set_header Upgrade \${http_upgrade};
+        proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection "upgrade";
-        proxy_set_header Host \${http_host};
+        proxy_set_header Host \$http_host;
     }
 }
 EOF
