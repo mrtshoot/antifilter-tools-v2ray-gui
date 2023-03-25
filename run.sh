@@ -18,6 +18,11 @@ read -p "Enter your web gui v2ray admin panel port: " config_port
 sudo apt update -y
 sudo apt install -y ansible sshpass
 
+# Create playbook inventory
+cp inventory.example inventory
+sed -i "s/SERVER_IP/$SERVER_IP/g" inventory
+sed -i "s/SERVER_PASSWORD/$SERVER_PASSWORD/g" inventory
+
 # Create function executer
 func_exec_script() {
     ansible-playbook -i inventory playbook.yaml --extra-vars="\

@@ -1,0 +1,2 @@
+[server]
+v2ray ansible_user=root ansible_host=SERVER_IP  ansible_connection=ssh  ansible_port=22 ansible_ssh_pass=SERVER_PASSWORD ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
