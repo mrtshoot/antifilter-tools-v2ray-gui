@@ -1,5 +1,5 @@
 ---
-#Servers_Requirements
+# Servers_Requirements
 - name: Install Requirements Package and Modules
   hosts: server
   remote_user: root
@@ -29,7 +29,7 @@
       tags:
       - package
 
-#Services
+# Services
 - name: Start Services
   hosts: server
   remote_user: root
@@ -47,7 +47,7 @@
       tags:
       - service
 
-#Tunning
+# Tunning
 - name: Tunning
   hosts: server
   remote_user: root
