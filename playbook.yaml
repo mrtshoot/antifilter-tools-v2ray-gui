@@ -9,7 +9,6 @@
       - python3-certbot-nginx
       - certbot
       - htop
-      - git
       - curl
       - apt-transport-https
       - ca-certificates
