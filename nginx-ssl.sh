@@ -87,6 +87,10 @@ EOF
     # Enable the site
     ln -s /etc/nginx/sites-available/"$domain" /etc/nginx/sites-enabled/
 
+    # Remove unnessery files
+    rm -f /etc/nginx/sites-available/default
+    rm -f /etc/nginx/sites-enabled/default
+
     # Test nginx configuration
     nginx -t
 
@@ -98,8 +102,6 @@ EOF
 
     echo "Nginx configuration file for $domain has been created successfully!"
 
-    rm -f /etc/nginx/sites-available/default
-    rm -f /etc/nginx/sites-enabled/default
 }
 
 # Call the create_nginx_config function
