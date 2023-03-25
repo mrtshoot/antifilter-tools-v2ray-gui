@@ -17,6 +17,7 @@
       - wget
       - gnupg
       - lsb-release
+      - jq
   tasks:
     - name: Install Required Packages
       apt:
